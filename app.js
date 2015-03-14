@@ -7,6 +7,7 @@ require('./models/user_model.js');
 var mongoStore = require('connect-mongo')({session: expressSession});
 var conn = mongoose.connect('mongodb://AndrewGold:battery@ds061747.mongolab.com:61747/heroku_app34888818');
 var app = express();
+app.use(bodyParser());
 app.use(cookieParser());
 app.use(expressSession({
 	secret: 'SECRET',
@@ -16,4 +17,5 @@ app.use(expressSession({
 		collection: 'Sessions'
 	})
 }));
+require('./routes')(app);
 app.listen(process.env.PORT || 8080);
