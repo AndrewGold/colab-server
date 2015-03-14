@@ -1,5 +1,13 @@
 {
   "devDependencies": {
+    "express": "4.x",
+    "express-session": "x.x",
+    "connect-mongo": "x.x",
+    "passport": "x.x",
+    "mongodb": "1.x",
+    "mongoose": "x.x",
+    "body-parser": "x.x",
+    "cookie-parser": "x.x",
     "browser-sync": "^1.3.0",
     "del": "^0.1.2",
     "gulp": "^3.8.5",
