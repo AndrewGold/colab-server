@@ -17,6 +17,7 @@
 		D5036F591AB4CDEE00EAD807 /* Co_LlabTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5036F581AB4CDEE00EAD807 /* Co_LlabTests.swift */; };
 		D5036F6C1AB4D80D00EAD807 /* LogInController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5036F6B1AB4D80D00EAD807 /* LogInController.swift */; };
 		D5036F6E1AB4DD0200EAD807 /* SignUpController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5036F6D1AB4DD0200EAD807 /* SignUpController.swift */; };
+		D5B3B2951AB51CAD00F45A6F /* SearchTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5B3B2941AB51CAD00F45A6F /* SearchTableViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -47,6 +48,7 @@
 		D5036F671AB4D69700EAD807 /* CoLlab-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "CoLlab-Bridging-Header.h"; sourceTree = "<group>"; };
 		D5036F6B1AB4D80D00EAD807 /* LogInController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogInController.swift; sourceTree = "<group>"; };
 		D5036F6D1AB4DD0200EAD807 /* SignUpController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpController.swift; sourceTree = "<group>"; };
+		D5B3B2941AB51CAD00F45A6F /* SearchTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SearchTableViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -109,10 +111,9 @@
 			isa = PBXGroup;
 			children = (
 				D5036F671AB4D69700EAD807 /* CoLlab-Bridging-Header.h */,
-				D5036F621AB4D38200EAD807 /* Controller */,
+				D5B3B2931AB51C1C00F45A6F /* View Controller */,
+				D5036F621AB4D38200EAD807 /* Logic Controller */,
 				D5036F401AB4CDEE00EAD807 /* AppDelegate.swift */,
-				D5036F421AB4CDEE00EAD807 /* FirstViewController.swift */,
-				D5036F441AB4CDEE00EAD807 /* SecondViewController.swift */,
 				D5036F461AB4CDEE00EAD807 /* Main.storyboard */,
 				D5036F491AB4CDEE00EAD807 /* Images.xcassets */,
 				D5036F4B1AB4CDEE00EAD807 /* LaunchScreen.xib */,
@@ -146,13 +147,23 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
-		D5036F621AB4D38200EAD807 /* Controller */ = {
+		D5036F621AB4D38200EAD807 /* Logic Controller */ = {
 			isa = PBXGroup;
 			children = (
 				D5036F6B1AB4D80D00EAD807 /* LogInController.swift */,
 				D5036F6D1AB4DD0200EAD807 /* SignUpController.swift */,
 			);
-			name = Controller;
+			name = "Logic Controller";
+			sourceTree = "<group>";
+		};
+		D5B3B2931AB51C1C00F45A6F /* View Controller */ = {
+			isa = PBXGroup;
+			children = (
+				D5036F421AB4CDEE00EAD807 /* FirstViewController.swift */,
+				D5036F441AB4CDEE00EAD807 /* SecondViewController.swift */,
+				D5B3B2941AB51CAD00F45A6F /* SearchTableViewController.swift */,
+			);
+			name = "View Controller";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -291,6 +302,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				D5036F6E1AB4DD0200EAD807 /* SignUpController.swift in Sources */,
+				D5B3B2951AB51CAD00F45A6F /* SearchTableViewController.swift in Sources */,
 				D5036F451AB4CDEE00EAD807 /* SecondViewController.swift in Sources */,
 				D5036F6C1AB4D80D00EAD807 /* LogInController.swift in Sources */,
 				D5036F411AB4CDEE00EAD807 /* AppDelegate.swift in Sources */,
