@@ -8,10 +8,20 @@
 
 import UIKit
 
-class SearchTableViewController: UIViewController, UITableViewDelegate, UITableViewDataSource {
+class SearchTableViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate {
 
+    @IBOutlet weak var _searchBar: UISearchBar!
+    @IBOutlet weak var _tableView: UITableView!
+    
+    
+    private var searchHelper = SearchHelper()
+    
+    var currentDisplayUsers:[User] = []
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        currentDisplayUsers = searchHelper.returnSearchResults("")
         
         // Uncomment the following line to preserve selection between presentations
         // self.clearsSelectionOnViewWillAppear = false
@@ -36,16 +46,22 @@ class SearchTableViewController: UIViewController, UITableViewDelegate, UITableV
      func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete method implementation.
         // Return the number of rows in the section.
-        return 5
+        return currentDisplayUsers.count
     }
 
     
      func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("testCell2", forIndexPath: indexPath) as UITableViewCell
-
-        // Configure the cell...
+        let cell = tableView.dequeueReusableCellWithIdentifier("userCell", forIndexPath: indexPath) as CustomUserTableViewCell
+        
+        let curUser = currentDisplayUsers[indexPath.item]
+        
+        cell.setUpCell("placeholder", name: curUser._name, tagLine: curUser._tagLine, score: curUser._score, skill1: curUser._skill1, skill2: curUser._skill2, skill3: curUser._skill3)
 
         return cell
+    }
+    
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        dismissKeyboard()
     }
 
     /*
@@ -92,5 +108,42 @@ class SearchTableViewController: UIViewController, UITableViewDelegate, UITableV
         // Pass the selected object to the new view controller.
     }
     */
+    
+    
+    // MARK: - Search Bar Delegate
+    
+    // return NO to not become first responder
+    func searchBarShouldBeginEditing(searchBar: UISearchBar) -> Bool {
+        return true
+    }
+    
+    
+    // return NO to not resign first responder
+    func searchBarShouldEndEditing(searchBar: UISearchBar) -> Bool{
+        return true
+    }
+    
+    // called when cancel button pressed
+    func searchBarCancelButtonClicked(searchBar: UISearchBar) {
+        dismissKeyboard()
+    }
+
+    // called when search results button pressed
+    func searchBarResultsListButtonClicked(searchBar: UISearchBar) {
+        dismissKeyboard()
+    }
+    
+    
+    // called when text changes (including clear)
+    func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
+        currentDisplayUsers = searchHelper.returnSearchResults(searchText)
+        _tableView.reloadData()
+    }
+    
+    // MARK:- Helper Functions
+    
+    private func dismissKeyboard() {
+        _searchBar.endEditing(true)
+    }
 
 }
