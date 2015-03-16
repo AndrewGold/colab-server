@@ -1,16 +1,26 @@
 var crypto = require('crypto');
 var mongoose = require('mongoose');
 var User = mongoose.model('User');
-var unableToAddUser = 1;
-var authenticationFailed = 2;
-var databaseError = 3;
-var userNotFound = 4;
+var Skill = mongoose.model('Skill');
+var skillController = require('../controllers/skill_controller.js');
+var Project = mongoose.model('Project');
+var error = 1;
 var success = 0;
 
 function hashPW(pwd){
   return crypto.createHash('sha256').update(pwd).
          digest('base64').toString();
 }
+function getUser(email){
+	User.findOne({ email: req.body.email })
+	.exec(function(err, user) {
+		if (!user) {
+			return null;
+		} else {
+			return user;
+		}
+	});
+};
 exports.signup = function(req, res) {
 	var user = new User();
 	user.set('email', req.body.email);
@@ -20,7 +30,7 @@ exports.signup = function(req, res) {
 	user.save(function(err) {
 		if (err) {
 			console.log('error addding user');
-			res.send({status: unableToAddUser});
+			res.send({status: error});
 		} else {
 			req.session.user = user.id;
 			req.session.email = user.email;
@@ -46,20 +56,24 @@ exports.login = function(req, res) {
 				});
 			});
 		} else {
-			res.send({status:authenticationFailed});
+			res.send({status:error});
 		}
 		if (err) {
-			res.send({status:databaseError});
+			res.send({status:error});
 		};
 	});
 };
-exports.getUserProfile = function(req, res) {
-	User.findOne({ email: req.body.email })
-	.exec(function(err, user) {
-		if (!user) {
-			res.send({status:userNotFound});
-		} else {
-			res.json(user);
-		}
-	});
+exports.getUser = function(req, res) {
+	var user = getUser(req.body.email);
+	if (user) {
+		res.send({
+			status:success,
+			user:user
+		});
+	} else {
+		res.send({
+			status:error,
+			user:null
+		});
+	}
 };
