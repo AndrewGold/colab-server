@@ -11,7 +11,7 @@ function hashPW(pwd){
   return crypto.createHash('sha256').update(pwd).
          digest('base64').toString();
 }
-function getUser(email){
+function get(email){
 	User.findOne({ email: req.body.email })
 	.exec(function(err, user) {
 		if (!user) {
@@ -64,7 +64,7 @@ exports.login = function(req, res) {
 	});
 };
 exports.getUser = function(req, res) {
-	var user = getUser(req.body.email);
+	var user = get(req.body.email);
 	if (user) {
 		res.send({
 			status:success,

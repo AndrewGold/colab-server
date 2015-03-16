@@ -6,6 +6,17 @@ var Project = mongoose.model('Project');
 var error = 1;
 var success = 0;
 
+
+function get(skill) {
+	Skill.findOne({title:skill})
+	.exec(function(err, skill) {
+		if (!skill) {
+			return null;
+		} else {
+			return skill;
+		}
+	});
+}
 exports.addSkill = function(req, res) {
 	var skill = new Skill();
 	skill.set('title', req.body.skill);
@@ -20,34 +31,30 @@ exports.addSkill = function(req, res) {
 	});
 };
 exports.addUserToSkill = function(req, res) {
-	Skill.findOne({title:req.body.skill})
-	.exec(function(err, skill) {
-		if (!skill) {
-			res.send({status:error});
+	var skill = get(req.body.skill);
+	if (!skill) {
+		res.send({status:error});
+	} else {
+		var user = userController.get(req.body.email);
+		if (user) {
+			skill.users.push(user);
+			res.send({status:success});
 		} else {
-			var user = userController.getUser(req.body.email);
-			if (user) {
-				skill.users.push(user);
-				res.send({status:success});
-			} else {
-				res.send({status:error});
-			}
+			res.send({status:error});
 		}
-	});
+	}
 };
 exports.getSkill = function(req, res) {
-	Skill.findOne({ title:req.body.skill })
-	.exec(function(err, skill) {
-		if (!skill) {
-			res.send({status:error});
-		} else {
-			res.send({
-				status: success,
-				skillId: skill.id,
-				skill: skill.title
-			});
-		}
-	});
+	var skill = get(req.body.skill);
+	if (!skill) {
+		res.send({status:error});
+	} else {
+		res.send({
+			status: success,
+			skillId: skill.id,
+			skill: skill.title
+		});
+	}
 };
 exports.getAllSkills = function(req, res) {
 	Skill.find({}).exec(function(err, result) {
