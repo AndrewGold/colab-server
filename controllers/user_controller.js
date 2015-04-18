@@ -7,11 +7,12 @@ var Project = mongoose.model('Project');
 var projectController = require('../controllers/project_controller.js');
 var error = 1;
 var success = 0;
+var authenticationFailed = 2;
 
 function hashPW(pwd){
   return crypto.createHash('sha256').update(pwd).
          digest('base64').toString();
-};
+}
 var get = function(id, callback){
 	User.findById(id)
 	.exec(function(err, user) {
@@ -61,7 +62,7 @@ exports.login = function(req, res) {
 		}
 		if (err) {
 			res.send({status:error});
-		};
+		}
 	});
 };
 exports.getUser = function(req, res) {
@@ -82,7 +83,7 @@ exports.getUser = function(req, res) {
 exports.addProject = function(req, res) {
 	get(req.body.user._id, function(user) {
 		if (user) {
-			skills = [];
+			var skills = [];
 			for (var i = 0; i < req.body.skills.length; i++) {
 				Skill.findByName(req.body.skills[i], function(err, skill) {
 					if (!skill) {
@@ -110,6 +111,6 @@ exports.addProject = function(req, res) {
 		}
 	});
 };
-module.exports = {
-	get: get
+exports.get = function(id, callback) {
+	get(id, callback);
 };
