@@ -7,54 +7,49 @@ var error = 1;
 var success = 0;
 
 
-function get(skill) {
-	Skill.findOne({title:skill})
+var get = function(id, callback) {
+	Skill.findById(id)
 	.exec(function(err, skill) {
 		if (!skill) {
-			return null;
+			callback(null);
 		} else {
-			return skill;
+			callback(skill);
 		}
 	});
 }
-exports.addSkill = function(req, res) {
+exports.addSkill = function(title, user, callback) {
 	var skill = new Skill();
-	skill.set('title', req.body.skill);
-	skill.users = [];
-	skill.save(function(err) {
-		if (err) {
-			console.log('error adding skill');
-			res.send({status: error});
-		} else {
-			res.send({status:success});
-		}
-	});
+	skill.set('title', title);
+	skill.users.push(user);
+	skill.save(callback);
 };
-exports.addUserToSkill = function(req, res) {
+exports.addUserToSkill = function(req, res, callback) {
 	var skill = get(req.body.skill);
 	if (!skill) {
-		res.send({status:error});
+		callback(error);
 	} else {
-		var user = userController.get(req.body.email);
-		if (user) {
-			skill.users.push(user);
-			res.send({status:success});
-		} else {
-			res.send({status:error});
-		}
+		var user = userController.get(req.body.user._id, function(user) {
+			if (user) {
+				skill.users.push(user);
+				skill.save(callback);
+			} else {
+				callback(error);
+			}
+		});
 	}
 };
 exports.getSkill = function(req, res) {
-	var skill = get(req.body.skill);
-	if (!skill) {
-		res.send({status:error});
-	} else {
-		res.send({
-			status: success,
-			skillId: skill.id,
-			skill: skill.title
-		});
-	}
+	get(req.body.skill, function(skill) {
+		if (!skill) {
+			res.send({status:error});
+		} else {
+			res.send({
+				status: success,
+				skillId: skill.id,
+				skill: skill.title
+			});
+		}
+	});
 };
 exports.getAllSkills = function(req, res) {
 	Skill.find({}).exec(function(err, result) {
@@ -70,4 +65,7 @@ exports.getAllSkills = function(req, res) {
 			});
 		}
 	});
+};
+module.exports = {
+	get: get
 };
