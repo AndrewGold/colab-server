@@ -9,7 +9,8 @@ require('./models/project_model.js');
 var mongoStore = require('connect-mongo')({session: expressSession});
 var conn = mongoose.connect('mongodb://AndrewGold:battery@ds061747.mongolab.com:61747/heroku_app34888818');
 var app = express();
-app.use(bodyParser());
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended:true}));
 app.use(cookieParser());
 app.use(expressSession({
 	secret: 'SECRET',

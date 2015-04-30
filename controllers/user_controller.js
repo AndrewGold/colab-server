@@ -23,12 +23,23 @@ var get = function(id, callback){
 		}
 	});
 };
+exports.getAllUsers = function(req, res) {
+	User.find({}).exec(function(err, users) {
+		if (users) {
+			res.send({
+				status:success,
+				users:users
+			});
+		}
+	});
+};
 exports.signup = function(req, res) {
+	console.log("signup!");
+	console.log(req.body.email);
+	console.log(req.body.password);
 	var user = new User();
 	user.set('email', req.body.email);
 	user.set('hashed_password', hashPW(req.body.password));
-	user.set('projects', []);
-	user.set('skills', []);
 	user.save(function(err) {
 		if (err) {
 			console.log('error addding user');
@@ -44,10 +55,11 @@ exports.signup = function(req, res) {
 	});
 };
 exports.login = function(req, res) {
+	console.log("login!");
 	User.findOne({ email: req.body.email})
 	.exec(function(err, user) {
 		if (!user) {
-			res.send(authenticationFailed);
+			res.send({status:authenticationFailed});
 		} else if (user.hashed_password === hashPW(req.body.password.toString())) {
 			req.session.regenerate(function() {
 				req.session.user = user.id;
@@ -76,6 +88,25 @@ exports.getUser = function(req, res) {
 			res.send({
 				status:error,
 				user:null
+			});
+		}
+	});
+};
+exports.updateUserInfo = function(req, res) {
+	get(req.body.user._id, function(user) {
+		if (user) {
+			if (req.body.user.tagline != null) {
+				user.setTagline(req.body.user.tagline);
+			}
+			if (req.body.user.description != null) {
+				user.setDescription(req.body.user.description);
+			}
+			if (req.body.user.location != null) {
+				user.setLocation(req.body.user.location);
+			}
+			res.send({
+				status:success,
+				user:user
 			});
 		}
 	});

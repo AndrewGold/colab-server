@@ -6,7 +6,6 @@ var Project = mongoose.model('Project');
 var error = 1;
 var success = 0;
 
-
 var get = function(id, callback) {
 	Skill.findById(id)
 	.exec(function(err, skill) {
@@ -16,7 +15,7 @@ var get = function(id, callback) {
 			callback(skill);
 		}
 	});
-}
+};
 exports.addSkill = function(title, user, callback) {
 	var skill = new Skill();
 	skill.set('title', title);
@@ -52,20 +51,21 @@ exports.getSkill = function(req, res) {
 	});
 };
 exports.getAllSkills = function(req, res) {
+	console.log("finding skills");
 	Skill.find({}).exec(function(err, result) {
 		if (!err) {
+			console.log(result);
 			res.send({
-				status:success,
 				skills: result
 			});
 		} else {
+			console.log(err);
 			res.send({
-				status:error,
 				skills:[]
 			});
 		}
 	});
 };
-module.exports = {
-	get: get
-};
+exports.get = function(id, callback) {
+	get(id, callback);
+}

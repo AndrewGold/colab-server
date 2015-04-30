@@ -27,6 +27,18 @@ UserSchema.methods.addProjectToUser = function(project, skills, callback) {
 	});
 	this.save(callback);
 }
+UserSchema.methods.setTagline = function(tagline) {
+	this.set("tagline", tagline);
+	this.save();
+}
+UserSchema.methods.setDescription = function(description) {
+	this.set("description", description);
+	this.save();
+}
+UserSchema.methods.setLocation = function(location) {
+	this.set("location", location);
+	this.save();
+}
 UserSchema.methods.hasSkill = function(skill) {
 	for (var i = 0; i < this.skills.length; i++) {
 		if (this.skills[i].title == skill.title) {
