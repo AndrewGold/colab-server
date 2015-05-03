@@ -40,6 +40,10 @@ exports.signup = function(req, res) {
 	var user = new User();
 	user.set('email', req.body.email);
 	user.set('hashed_password', hashPW(req.body.password));
+	user.setFirstName("");
+	user.setLastName("");
+	user.setDescription("");
+	user.setTagline("");
 	user.save(function(err) {
 		if (err) {
 			console.log('error addding user');
