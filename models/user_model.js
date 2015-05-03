@@ -27,6 +27,14 @@ UserSchema.methods.addProjectToUser = function(project, skills, callback) {
 	});
 	this.save(callback);
 }
+UserSchema.methods.setFirstName = function(firstName) {
+	this.set("firstName", firstName);
+	this.save();
+}
+UserSchema.methods.setLastName = function(lastName) {
+	this.set("lastName", lastName);
+	this.save();
+}
 UserSchema.methods.setTagline = function(tagline) {
 	this.set("tagline", tagline);
 	this.save();

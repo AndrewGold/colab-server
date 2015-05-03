@@ -95,6 +95,12 @@ exports.getUser = function(req, res) {
 exports.updateUserInfo = function(req, res) {
 	get(req.body.user._id, function(user) {
 		if (user) {
+			if (req.body.user.firstName) {
+				user.setFirstName(req.body.user.firstName);
+			}
+			if (req.body.user.lastName) {
+				user.setLastName(req.body.user.lastName);
+			};
 			if (req.body.user.tagline != null) {
 				user.setTagline(req.body.user.tagline);
 			}
