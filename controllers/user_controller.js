@@ -82,7 +82,7 @@ exports.login = function(req, res) {
 	});
 };
 exports.getUser = function(req, res) {
-	get(req.body.user._id, function(user) {
+	get(req.body.user, function(user) {
 		if (user) {
 			res.send({
 				status:success,
